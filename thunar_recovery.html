@@ -4,17 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XFCE Default File Manager Fix | Thunar Recovery Strategy</title>
-    <meta name="description" content="Step-by-step recovery strategy to restore Thunar as default file manager on XFCE when XFE or other file managers hijack folder associations.">
-    <!-- shared stylesheet from root of fix repository -->
-    <link rel="stylesheet" href="/fix/css/style.css">
-    <!-- tiny additional override for card titles inside grid (optional, keeps original look) -->
     <style>
-        .card h3 {
-            margin-top: 0;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fafbfc;
+            color: #1a202c;
+            line-height: 1.5;
         }
-        .terminal {
-            background-color: #0f172a;
-            border-left: 4px solid #2c7a64;
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .hero {
+            background: linear-gradient(135deg, #0b2b26 0%, #1a4a3f 100%);
+            color: white;
+            border-radius: 1.5rem;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+        .hero h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+        .hero .subtitle { font-size: 1.25rem; opacity: 0.9; margin-bottom: 1rem; border-left: 3px solid #50b8a0; padding-left: 1rem; }
+        .hero .author { font-size: 1rem; margin-top: 1rem; opacity: 0.8; display: flex; flex-wrap: wrap; gap: 1.5rem; }
+        .stats { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3rem; justify-content: center; }
+        .stat-card {
+            background: white; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            padding: 1.5rem; text-align: center; flex: 1; min-width: 150px; border-top: 4px solid #2c7a64;
+        }
+        .stat-number { font-size: 2.5rem; font-weight: 800; color: #1e4a3b; line-height: 1.2; }
+        .stat-label { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; color: #4a5568; font-weight: 600; }
+        .section {
+            background: white; border-radius: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 2rem; padding: 1.8rem 2rem;
+        }
+        .section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.2rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e2e8f0; color: #0f3b32; }
+        .section h3 { font-size: 1.3rem; font-weight: 600; margin: 1.5rem 0 0.75rem 0; color: #1f5e4d; }
+        .section p { margin-bottom: 1rem; color: #2d3748; }
+        pre {
+            background-color: #1e2a3a; color: #e2e8f0; padding: 1rem; border-radius: 0.75rem;
+            overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 0.85rem; margin: 1rem 0;
+        }
+        code {
+            font-family: 'Fira Code', monospace; background-color: #edf2f7; padding: 0.2rem 0.4rem;
+            border-radius: 0.375rem; font-size: 0.85rem; color: #c7254e;
+        }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        .terminal { background-color: #0f172a; border-left: 4px solid #2c7a64; }
+        ul, ol { margin: 1rem 0 1rem 1.8rem; }
+        li { margin: 0.5rem 0; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+        .card { background: #f9fafb; border-radius: 0.75rem; padding: 1.25rem; border: 1px solid #e2e8f0; }
+        .footnote { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; font-size: 0.85rem; color: #4a5568; }
+        @media (max-width: 640px) {
+            .hero { padding: 2rem 1.5rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .section { padding: 1.2rem; }
         }
     </style>
 </head>
@@ -31,18 +73,9 @@
     </div>
 
     <div class="stats">
-        <div class="stat-card">
-            <div class="stat-number">100%</div>
-            <div class="stat-label">Conflict Resolution</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">&lt;5 min</div>
-            <div class="stat-label">Mean Time to Fix (MTTF)</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">agnostic</div>
-            <div class="stat-label">XFCE / Debian ✓</div>
-        </div>
+        <div class="stat-card"><div class="stat-number">100%</div><div class="stat-label">Conflict Resolution</div></div>
+        <div class="stat-card"><div class="stat-number">&lt;5 min</div><div class="stat-label">Mean Time to Fix (MTTF)</div></div>
+        <div class="stat-card"><div class="stat-number">agnostic</div><div class="stat-label">XFCE / Debian ✓</div></div>
     </div>
 
     <div class="section">
@@ -58,29 +91,16 @@
     <div class="section">
         <h2>Research Framework &amp; Objectives</h2>
         <div class="grid-2">
-            <div class="card">
-                <h3>🔍 Diagnosis First</h3>
-                <p>Identify the rogue file manager using <code>xdg-open</code> tests and MIME queries. Verify that <code>inode/directory</code> is not pointing to an unexpected desktop entry.</p>
-            </div>
-            <div class="card">
-                <h3>⚙️ Clean Removal</h3>
-                <p>Purge conflicting file manager packages (<code>xfe</code>), remove orphaned desktop files, and clean up <code>~/.config/mimeapps.list</code> from duplicate directives.</p>
-            </div>
-            <div class="card">
-                <h3>🔁 Reassert Thunar</h3>
-                <p>Use <code>xdg-mime default thunar.desktop</code> for all relevant MIME types and update the desktop database to finalise the binding.</p>
-            </div>
-            <div class="card">
-                <h3>🛡️ Integrity Check</h3>
-                <p>Ensure XFCE components (panel, settings, session) remain untouched; the recovery only touches file manager associations, not the desktop environment.</p>
-            </div>
+            <div class="card"><h3>🔍 Diagnosis First</h3><p>Identify the rogue file manager using <code>xdg-open</code> tests and MIME queries. Verify that <code>inode/directory</code> is not pointing to an unexpected desktop entry.</p></div>
+            <div class="card"><h3>⚙️ Clean Removal</h3><p>Purge conflicting file manager packages (<code>xfe</code>), remove orphaned desktop files, and clean up <code>~/.config/mimeapps.list</code> from duplicate directives.</p></div>
+            <div class="card"><h3>🔁 Reassert Thunar</h3><p>Use <code>xdg-mime default thunar.desktop</code> for all relevant MIME types and update the desktop database to finalise the binding.</p></div>
+            <div class="card"><h3>🛡️ Integrity Check</h3><p>Ensure XFCE components (panel, settings, session) remain untouched; the recovery only touches file manager associations, not the desktop environment.</p></div>
         </div>
     </div>
 
     <div class="section">
         <h2>Technical Implementation &amp; Step‑by‑Step Recovery</h2>
         <p>The following commands were executed on a Debian-based XFCE system (Debian 12 / XFCE 4.20). The same logic applies to any distribution using <code>xdg-utils</code> and Thunar.</p>
-
         <h3>1. Detect the actual default file manager</h3>
         <pre class="terminal"><code>$ xdg-open ~/Downloads
 # (Opens XFE instead of Thunar — reveals conflict)
@@ -88,39 +108,33 @@
 $ xdg-mime query default inode/directory
 xfce4-file-manager.desktop   # or xfe.desktop
 </code></pre>
-
         <h3>2. Inspect conflicting MIME associations</h3>
         <pre class="terminal"><code>$ cat ~/.config/mimeapps.list | grep inode/directory
 inode/directory=xfce4-file-manager.desktop;
 inode/directory=thunar.desktop
 </code></pre>
         <p>Duplicate entries cause unpredictability. The first entry often wins. We identified that <code>xfce4-file-manager.desktop</code> is a wrapper pointing to <code>exo-open --launch FileManager</code>, which in turn was delegating to XFE instead of Thunar.</p>
-
         <h3>3. Remove the competing file manager (XFE)</h3>
         <pre class="terminal"><code>$ sudo apt purge xfe
 $ rm -rf ~/.config/xfe
 $ sudo rm -f /usr/share/applications/xfe*.desktop
 </code></pre>
-
         <h3>4. Clean mimeapps.list duplicates</h3>
         <pre class="terminal"><code>$ sed -i '/^inode\/directory=xfce4-file-manager.desktop;/d' ~/.config/mimeapps.list
 $ cat ~/.config/mimeapps.list | grep inode/directory
 inode/directory=thunar.desktop   # only one entry remains
 </code></pre>
-
         <h3>5. Neutralize the xfce4-file-manager wrapper (optional but recommended)</h3>
         <pre class="terminal"><code>$ sudo mv /usr/share/applications/xfce4-file-manager.desktop /usr/share/applications/xfce4-file-manager.desktop.backup
 $ sudo update-desktop-database
 </code></pre>
         <p>This prevents any fallback to the wrapper, ensuring direct calls to Thunar.</p>
-
         <h3>6. Reassert Thunar for all directory types</h3>
         <pre class="terminal"><code>$ xdg-mime default thunar.desktop inode/directory
 $ xdg-mime default thunar.desktop inode/mount-point
 $ xdg-mime default thunar.desktop application/x-directory
 $ xdg-mime default thunar.desktop x-directory/normal
 </code></pre>
-
         <h3>7. Flush caches &amp; verify</h3>
         <pre class="terminal"><code>$ rm -f ~/.local/share/applications/mimeapps.cache
 $ sudo update-desktop-database
@@ -231,9 +245,9 @@ echo "Done. Thunar is now your default file manager."
     </div>
 
     <div class="footnote">
-        <p>© 2026 Edwin R. Mashayo — This document is provided under <strong>MIT License</strong> (see <a href="https://github.com/mashayo/fix">repository</a>). Free to share and adapt with attribution.</p>
+        <p>© 2026 Edwin R. Mashayo — This document is provided under <strong>MIT License</strong>. Free to share and adapt with attribution.</p>
         <p>University of Dar es Salaam · P.O.Box 35012 Dar es Salaam, Tanzania · edwin@mashayo.com</p>
-        <p>Part of the <a href="/fix/">Linux Fix Repository</a> — also see <a href="/fix/krs/">Kernel Recovery Strategy (KRS)</a>.</p>
+        <p>Part of the <a href="index.html">Linux Fix Repository</a> — also see <a href="krs.html">Kernel Recovery Strategy (KRS)</a>.</p>
     </div>
 </div>
 </body>
