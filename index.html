@@ -1,201 +1,211 @@
-Here is the complete `index.html` for the root of your `fix` repository. It serves as a clean, professional landing page linking to all your recovery strategies, using a shared CSS file (to be placed at `/fix/css/style.css`). The design follows the visual language of your KRS and file‑manager pages, ensuring consistency across the entire collection.
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linux Fix Repository | Recovery Strategies</title>
-    <meta name="description" content="Curated collection of battle-tested Linux recovery strategies: Kernel Recovery Strategy (KRS), Thunar default file manager restoration, and more. MIT licensed.">
-    <link rel="stylesheet" href="/fix/css/style.css">
+    <title>fix — Linux recovery strategies</title>
+    <meta name="description" content="Battle-tested Linux recovery strategies: Kernel Recovery Strategy (KRS) and Thunar default file manager fix. MIT licensed.">
     <style>
-        /* additional minimal hero / card tweaks that complement shared CSS */
-        .repo-badge {
-            display: inline-block;
-            background: #e2e8f0;
-            color: #1a202c;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            font-family: monospace;
-            margin-left: 0.5rem;
-            vertical-align: middle;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .fix-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
         }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #0b2b26 0%, #1e6f5c 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #475569;
+            margin-top: 0.5rem;
+        }
+
+        /* stats row */
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .stat {
+            background: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #1e4a3b;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* fix cards */
+        .fix-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+        }
+
         .fix-card {
             background: white;
             border-radius: 1rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: transform 0.1s ease, box-shadow 0.2s ease;
-            border: 1px solid #edf2f7;
-            overflow: hidden;
-        }
-        .fix-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 20px -8px rgba(0,0,0,0.1);
-        }
-        .fix-card-content {
             padding: 1.5rem;
-        }
-        .fix-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0 0 0.5rem 0;
-            color: #1e4a3b;
-        }
-        .fix-meta {
-            font-size: 0.8rem;
-            color: #4a5568;
-            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
             display: flex;
-            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
         }
-        .fix-description {
-            color: #2d3748;
-            margin: 0.75rem 0 1rem 0;
-            line-height: 1.5;
+
+        .fix-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-        .btn {
+
+        .fix-info {
+            flex: 1;
+        }
+
+        .fix-info h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #0f172a;
+        }
+
+        .fix-info .badge {
+            font-size: 0.7rem;
+            font-weight: 500;
+            background: #e6fffa;
+            color: #1e6f5c;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
             display: inline-block;
-            background-color: #2c7a64;
+            margin-bottom: 0.5rem;
+        }
+
+        .fix-info p {
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        .fix-link {
+            background: #1e4a3b;
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 0.5rem;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.875rem;
             transition: background 0.2s;
+            white-space: nowrap;
+            margin-left: 1rem;
         }
-        .btn:hover {
-            background-color: #1e5f4d;
+
+        .fix-link:hover {
+            background: #0f3b2f;
         }
-        .footer-links {
-            margin-top: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
+
+        /* footer */
+        .footer {
+            text-align: center;
+            padding-top: 2rem;
             border-top: 1px solid #e2e8f0;
-            padding-top: 1.5rem;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .footer a {
+            color: #1e6f5c;
+            text-decoration: none;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+            .fix-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .fix-link {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- Hero section -->
-    <div class="hero">
-        <h1>🐧 Linux Fix Repository</h1>
-        <div class="subtitle">Zero‑downtime recovery strategies for real‑world Linux failures</div>
-        <div class="author">
-            <span>Edwin R. Mashayo</span>
-            <span>University of Dar es Salaam</span>
-            <span>MIT Licensed</span>
-        </div>
+    <div class="header">
+        <h1>fix</h1>
+        <p>Linux recovery strategies — zero‑downtime, battle‑tested</p>
     </div>
 
-    <!-- stats / quick facts -->
     <div class="stats">
-        <div class="stat-card">
-            <div class="stat-number">2+</div>
-            <div class="stat-label">Production Fixes</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">&lt;5 min</div>
-            <div class="stat-label">Average Recovery</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">100%</div>
-            <div class="stat-label">Open Source</div>
-        </div>
+        <span class="stat">⚡ MTTR &lt; 10s (KRS)</span>
+        <span class="stat">🛠️ XFCE + Debian proven</span>
+        <span class="stat">📄 MIT license</span>
     </div>
 
-    <!-- main description -->
-    <div class="section">
-        <h2>About this collection</h2>
-        <p>Every Linux system administrator or power user eventually faces a broken kernel update, a hijacked file manager, or a misbehaving desktop component. This repository documents battle‑tested, step‑by‑step recovery strategies that eliminate guesswork and minimise downtime. Each fix includes terminal simulations, automated scripts, and clear explanations — designed to be distribution‑agnostic (Debian, Ubuntu, and beyond).</p>
-        <p>All fixes are licensed under <strong>MIT</strong>, meaning you can freely use, adapt, and share them. Contributions and issue reports are welcome via GitHub.</p>
-    </div>
-
-    <!-- list of fixes (cards) -->
-    <div class="section">
-        <h2>📦 Available fixes</h2>
-        <div class="fix-grid">
-            <!-- KRS card -->
-            <div class="fix-card">
-                <div class="fix-card-content">
-                    <h3>Kernel Recovery Strategy <span class="repo-badge">KRS</span></h3>
-                    <div class="fix-meta">
-                        <span>⚙️ DKMS • pre‑hook</span>
-                        <span>⏱️ MTTR &lt;10s</span>
-                    </div>
-                    <p class="fix-description">Eliminate downtime caused by kernel or out‑of‑tree module update failures. Uses DKMS pre‑hooks and an agnostic rollback algorithm to restore a fully working kernel within seconds.</p>
-                    <a href="/fix/krs/" class="btn">View strategy →</a>
-                </div>
+    <div class="fix-list">
+        <div class="fix-card">
+            <div class="fix-info">
+                <div class="badge">KRS</div>
+                <h2>Kernel Recovery Strategy</h2>
+                <p>Zero‑downtime kernel update recovery using DKMS pre‑hooks. Automatically roll back failed modules.</p>
             </div>
-            <!-- Thunar / File Manager fix card -->
-            <div class="fix-card">
-                <div class="fix-card-content">
-                    <h3>Thunar Default Fix</h3>
-                    <div class="fix-meta">
-                        <span>🖱️ XFCE • MIME</span>
-                        <span>🐛 XFE conflict</span>
-                    </div>
-                    <p class="fix-description">When a secondary file manager (XFE, PCManFM, etc.) hijacks folder associations on XFCE, this guide restores Thunar as the default. Covers duplicate mimeapps.list entries, desktop wrapper cleanup, and xdg-mime hardening.</p>
-                    <a href="/fix/filemanager/" class="btn">View strategy →</a>
-                </div>
+            <a href="krs.html" class="fix-link">Read →</a>
+        </div>
+
+        <div class="fix-card">
+            <div class="fix-info">
+                <div class="badge">Thunar</div>
+                <h2>Default File Manager Fix</h2>
+                <p>Restore Thunar on XFCE when XFE or another file manager hijacks folder associations. Clear mimeapps, purge conflicts.</p>
             </div>
-            <!-- placeholder for future fixes (just to show extensibility) -->
-            <div class="fix-card" style="opacity: 0.8; background: #f9fafb;">
-                <div class="fix-card-content">
-                    <h3>More coming soon</h3>
-                    <div class="fix-meta">
-                        <span>📌 planned</span>
-                    </div>
-                    <p class="fix-description">Future additions: GRUB rescue recovery, APT dependency hell solver, broken initramfs repair, and other real‑world Linux rescues.</p>
-                    <span class="btn" style="background:#cbd5e1; cursor: default;">in development</span>
-                </div>
-            </div>
+            <a href="thunar_recovery.html" class="fix-link">Read →</a>
         </div>
     </div>
 
-    <!-- technical / license details -->
-    <div class="section">
-        <h2>Why these strategies work</h2>
-        <p>Each recovery method follows a consistent framework: <strong>diagnose → isolate → apply idempotent fix → verify</strong>. Instead of guessing, you get precise commands, explanations of why conflicts happen, and validation steps. The kernel strategy (KRS) reduces Mean Time to Recovery to under ten seconds, while the file‑manager fix restores expected behaviour without touching your desktop environment.</p>
-        <p>All scripts and documentation are provided under the MIT license. You are free to embed them into your own automation, fork the repository, or adapt the techniques for other distributions.</p>
-    </div>
-
-    <div class="section">
-        <h2>Repository structure &amp; contributions</h2>
-        <p>The <code>fix</code> repository is organised as follows:</p>
-        <pre class="terminal"><code>fix/
-├── index.html                 # this landing page
-├── css/
-│   └── style.css              # shared styles for all fix pages
-├── krs/
-│   └── index.html             # Kernel Recovery Strategy (full write‑up)
-├── filemanager/
-│   └── index.html             # Thunar default file manager fix
-└── README.md                  # quick overview + license
-</code></pre>
-        <p>If you discover a recurring Linux problem with a clear solution, open an issue or pull request on <a href="https://github.com/mashayo/fix" target="_blank">GitHub</a>. Contributions are welcome as long as they follow the same documentation style and MIT licensing.</p>
-    </div>
-
-    <!-- footer with license & contact -->
-    <div class="footer-links">
-        <div>© 2026 Edwin R. Mashayo — MIT License</div>
-        <div>
-            <a href="https://github.com/mashayo/fix" target="_blank" style="color:#2c7a64; text-decoration:none;">GitHub repository</a> &nbsp;|&nbsp;
-            <a href="mailto:edwin@mashayo.com" style="color:#2c7a64; text-decoration:none;">edwin@mashayo.com</a>
-        </div>
+    <div class="footer">
+        <p>© 2026 Edwin R. Mashayo — <a href="https://github.com/mashayo/fix" target="_blank">GitHub</a> — <a href="mailto:edwin@mashayo.com">edwin@mashayo.com</a></p>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem;">University of Dar es Salaam, Tanzania</p>
     </div>
 </div>
 </body>
 </html>
-```
