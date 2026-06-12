@@ -1,1 +1,41 @@
+#!/bin/bash
+# KRS Pre‑hook: Prevent kernel upgrades when headers or compiler are missing
+# Part of the Mashayo Kernel Recovery Strategy (KRS)
 
+LOG_FILE="/var/log/krs.log"
+TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+
+log() {
+    echo "$TIMESTAMP - $1" | tee -a "$LOG_FILE"
+}
+
+# Only run if the candidate kernel is different from the current one
+CURRENT_KERNEL=$(uname -r)
+CANDIDATE_KERNEL=$(apt-cache policy linux-image-amd64 2>/dev/null | grep -A1 "Candidate" | tail -1 | awk '{print $1}' | sed 's/://g')
+
+if [ -z "$CANDIDATE_KERNEL" ] || [ "$CANDIDATE_KERNEL" = "$CURRENT_KERNEL" ]; then
+    exit 0
+fi
+
+log "KRS: Current kernel = $CURRENT_KERNEL"
+log "KRS: Candidate kernel = $CANDIDATE_KERNEL"
+
+# Check if kernel headers are available
+HEADER_PACKAGE="linux-headers-$CANDIDATE_KERNEL"
+if ! apt-cache show "$HEADER_PACKAGE" >/dev/null 2>&1; then
+    log "KRS: ERROR - Header package $HEADER_PACKAGE not found in repositories."
+    log "KRS: Aborting kernel upgrade to prevent downtime."
+    exit 1
+fi
+log "KRS: Header package $HEADER_PACKAGE is available."
+
+# Check for a working compiler (gcc)
+if ! command -v gcc >/dev/null 2>&1; then
+    log "KRS: ERROR - gcc compiler not installed or not in PATH."
+    log "KRS: Aborting kernel upgrade."
+    exit 1
+fi
+log "KRS: gcc compiler found."
+
+log "KRS: All checks passed. Kernel upgrade is safe to proceed."
+exit 0
