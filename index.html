@@ -14,15 +14,15 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
+            background: #0a0c10;
+            color: #e2e8f0;
             line-height: 1.5;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 1.5rem;
+            padding: 2rem 1.5rem;
         }
 
         /* header */
@@ -32,18 +32,18 @@
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #0b2b26 0%, #1e6f5c 100%);
+            background: linear-gradient(135deg, #50b8a0 0%, #1e6f5c 100%);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
         }
 
         .header p {
-            font-size: 1.1rem;
-            color: #475569;
+            font-size: 1.2rem;
+            color: #94a3b8;
             margin-top: 0.5rem;
         }
 
@@ -57,30 +57,30 @@
         }
 
         .stat {
-            background: white;
+            background: #1e293b;
             padding: 0.75rem 1.5rem;
             border-radius: 2rem;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             font-size: 0.875rem;
             font-weight: 500;
-            color: #1e4a3b;
-            border: 1px solid #e2e8f0;
+            color: #50b8a0;
+            border: 1px solid #334155;
         }
 
         /* fix cards */
         .fix-list {
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1.5rem;
             margin-bottom: 3rem;
         }
 
         .fix-card {
-            background: white;
+            background: #1e293b;
             border-radius: 1rem;
             padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #334155;
             transition: all 0.2s ease;
             display: flex;
             flex-wrap: wrap;
@@ -89,8 +89,8 @@
         }
 
         .fix-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-color: #50b8a0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
         .fix-info {
@@ -98,17 +98,17 @@
         }
 
         .fix-info h2 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 0.25rem;
-            color: #0f172a;
+            margin-bottom: 0.5rem;
+            color: #f1f5f9;
         }
 
         .fix-info .badge {
             font-size: 0.7rem;
             font-weight: 500;
-            background: #e6fffa;
-            color: #1e6f5c;
+            background: #0f3b2f;
+            color: #50b8a0;
             padding: 0.2rem 0.6rem;
             border-radius: 1rem;
             display: inline-block;
@@ -116,13 +116,13 @@
         }
 
         .fix-info p {
-            color: #475569;
-            font-size: 0.9rem;
+            color: #cbd5e1;
+            font-size: 0.95rem;
         }
 
         .fix-link {
-            background: #1e4a3b;
-            color: white;
+            background: #0f3b2f;
+            color: #50b8a0;
             padding: 0.5rem 1.2rem;
             border-radius: 0.5rem;
             text-decoration: none;
@@ -131,29 +131,126 @@
             transition: background 0.2s;
             white-space: nowrap;
             margin-left: 1rem;
+            border: 1px solid #2c7a64;
         }
 
         .fix-link:hover {
-            background: #0f3b2f;
+            background: #1e6f5c;
+            color: white;
+        }
+
+        /* demo section */
+        .demo {
+            background: #1e293b;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+            border: 1px solid #334155;
+        }
+
+        .demo h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f1f5f9;
+        }
+
+        .demo p {
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .terminal {
+            background-color: #0f172a;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #50b8a0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .terminal pre {
+            background: transparent;
+            color: #e2e8f0;
+            padding: 0;
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        .terminal-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .terminal-input span {
+            color: #50b8a0;
+        }
+
+        .terminal-input input {
+            background: transparent;
+            border: none;
+            color: #e2e8f0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            flex: 1;
+            outline: none;
+        }
+
+        /* quick install */
+        .install {
+            background: #1e293b;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+            border: 1px solid #334155;
+        }
+
+        .install h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f1f5f9;
+        }
+
+        .install code {
+            background: #0f172a;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.375rem;
+            font-size: 0.85rem;
+            color: #50b8a0;
+        }
+
+        .install pre {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
         }
 
         /* footer */
         .footer {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid #334155;
             font-size: 0.8rem;
-            color: #64748b;
+            color: #94a3b8;
         }
 
         .footer a {
-            color: #1e6f5c;
+            color: #50b8a0;
             text-decoration: none;
         }
 
         @media (max-width: 640px) {
             .container {
-                padding: 2rem 1rem;
+                padding: 1rem;
             }
             .fix-card {
                 flex-direction: column;
@@ -189,7 +286,7 @@
                 <h2>Kernel Recovery Strategy</h2>
                 <p>Zero‑downtime kernel update recovery using DKMS pre‑hooks. Automatically roll back failed modules.</p>
             </div>
-            <a href="krs.html" class="fix-link">Read →</a>
+            <a href="krs.html" class="fix-link">Read More →</a>
         </div>
 
         <div class="fix-card">
@@ -198,14 +295,135 @@
                 <h2>Default File Manager Fix</h2>
                 <p>Restore Thunar on XFCE when XFE or another file manager hijacks folder associations. Clear mimeapps, purge conflicts.</p>
             </div>
-            <a href="thunar_recovery.html" class="fix-link">Read →</a>
+            <a href="thunar_recovery.html" class="fix-link">Read More →</a>
+        </div>
+        
+        <div class="fix-card" style="opacity: 0.7;">
+            <div class="fix-info">
+                <div class="badge">Coming Soon</div>
+                <h2>More Fixes</h2>
+                <p>GRUB recovery, APT dependency solver, broken initramfs repair, and other real‑world Linux rescues.</p>
+            </div>
+            <span class="fix-link" style="background: transparent; color: #64748b; border-color: #64748b;">In Development</span>
         </div>
     </div>
 
+    <div class="demo">
+        <h2>💻 Interactive Demo</h2>
+        <p>Experience the KRS recovery process in your browser. Type a command below (e.g., <code>help</code> or <code>./krs-status</code>) and press Enter to see how the system responds.</p>
+        <div class="terminal" id="demo-terminal">
+            <pre id="terminal-output">$ ./krs-status
+==========================================
+   Mashayo Kernel Recovery Strategy (KRS)
+==========================================
+
+Current kernel:        6.1.0-25-amd64
+Last booted kernel:    6.1.0-25-amd64
+Default next boot:     6.1.0-25-amd64
+
+Critical module status:
+  Broadcom wl (WiFi)   : loaded
+  NVIDIA (graphics)    : not present or not loaded
+
+Type 'help' for available commands.</pre>
+            <div class="terminal-input">
+                <span>$</span>
+                <input type="text" id="command-input" placeholder="Type a command...">
+            </div>
+        </div>
+    </div>
+
+    <div class="install">
+        <h2>🚀 Quick Install (KRS)</h2>
+        <p>To install the Kernel Recovery Strategy scripts on your Debian/Ubuntu system:</p>
+        <pre><code>git clone https://github.com/mashayo/fix.git
+cd fix/krs
+chmod +x krs-pre-hook krs-rollback krs-status
+sudo cp krs-pre-hook /usr/local/bin/
+sudo cp krs-rollback /usr/local/bin/
+sudo cp krs-status /usr/local/bin/
+echo 'APT::Update::Post-Invoke-Success { "/usr/local/bin/krs-pre-hook || true"; };' | sudo tee /etc/apt/apt.conf.d/99-krs-pre-hook
+echo "wl" | sudo tee -a /etc/modules
+sudo update-initramfs -u</code></pre>
+        <p>For more details, visit the <a href="https://github.com/mashayo/fix/tree/main/krs" style="color:#50b8a0;">KRS directory in the repository</a>.</p>
+    </div>
+
     <div class="footer">
-        <p>© 2026 Edwin R. Mashayo — <a href="https://github.com/mashayo/fix" target="_blank">GitHub</a> — <a href="mailto:edwin@mashayo.com">edwin@mashayo.com</a></p>
+        <p>© 2026 Edwin R. Mashayo — MIT License</p>
+        <p><a href="https://github.com/mashayo/fix" target="_blank">GitHub Repository</a> &nbsp;|&nbsp;
+        <a href="mailto:edwin@mashayo.com">Contact</a></p>
         <p style="margin-top: 0.5rem; font-size: 0.75rem;">University of Dar es Salaam, Tanzania</p>
     </div>
 </div>
+
+<script>
+    const terminalOutput = document.getElementById('terminal-output');
+    const commandInput = document.getElementById('command-input');
+    
+    // Define available commands
+    const commands = {
+        'help': `Available commands:
+  ./krs-status      - Show system kernel and driver status
+  apt policy        - Show available kernel updates
+  simulate-failure  - Simulate a kernel upgrade failure
+  krs-rollback      - Rollback to previous kernel
+  clear             - Clear the terminal`,
+        './krs-status': `==========================================
+   Mashayo Kernel Recovery Strategy (KRS)
+==========================================
+
+Current kernel:        6.1.0-25-amd64
+Last booted kernel:    6.1.0-25-amd64
+Default next boot:     6.1.0-25-amd64
+
+Critical module status:
+  Broadcom wl (WiFi)   : loaded
+  NVIDIA (graphics)    : not present or not loaded`,
+        'apt policy': `linux-image-amd64:
+  Installed: 6.1.0-25-amd64
+  Candidate: 6.12.57+deb13-amd64
+  Version table:
+     6.12.57+deb13-amd64 500
+        500 http://deb.debian.org/debian experimental/main amd64 Packages
+ *** 6.1.0-25-amd64 500
+        500 http://deb.debian.org/debian stable/main amd64 Packages`,
+        'simulate-failure': `⚠️  Simulating kernel upgrade failure...
+❌ DKMS build failed for kernel 6.12.57+deb13-amd64
+   Missing kernel headers for version 6.12.57+deb13-amd64
+   Aborting upgrade to prevent system downtime.
+💡 Run 'krs-rollback' to revert to previous kernel.`,
+        'krs-rollback': `🔄 Rolling back to previous kernel...
+   GRUB default set to 6.1.0-25-amd64
+   System will reboot in 5 seconds.
+   (Simulation: system would reboot now)`
+    };
+    
+    commandInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const cmd = commandInput.value.trim();
+            if (cmd === '') return;
+            
+            // Add the command to the terminal output
+            terminalOutput.innerHTML += `\n$ ${cmd}\n`;
+            
+            // Process the command
+            let output = '';
+            if (cmd === 'clear') {
+                terminalOutput.innerHTML = '';
+                commandInput.value = '';
+                return;
+            } else if (commands[cmd]) {
+                output = commands[cmd];
+            } else {
+                output = `Command not found: ${cmd}. Type 'help' for available commands.`;
+            }
+            
+            terminalOutput.innerHTML += `${output}\n`;
+            commandInput.value = '';
+            // Auto-scroll
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+    });
+</script>
 </body>
 </html>
