@@ -1,1 +1,30 @@
+#!/bin/bash
+# KRS Status: Display current kernel health and rollback information
+# Part of the Mashayo Kernel Recovery Strategy (KRS)
 
+echo "=========================================="
+echo "   Mashayo Kernel Recovery Strategy (KRS)"
+echo "=========================================="
+echo ""
+
+echo "Current kernel:        $(uname -r)"
+echo "Last booted kernel:    $(grep -m1 "menuentry.*linux" /boot/grub/grub.cfg | sed "s/.*'\(.*\)'.*/\1/")"
+echo "Default next boot:     $(grub-editenv list 2>/dev/null | grep "saved_entry" | cut -d= -f2)"
+echo ""
+
+echo "Critical module status:"
+if lsmod | grep -q wl; then
+    echo "  Broadcom wl (WiFi)   : loaded"
+else
+    echo "  Broadcom wl (WiFi)   : NOT loaded"
+fi
+
+if lsmod | grep -q nvidia; then
+    echo "  NVIDIA (graphics)    : loaded"
+else
+    echo "  NVIDIA (graphics)    : not present or not loaded"
+fi
+
+echo ""
+echo "Log file: /var/log/krs.log"
+tail -5 /var/log/krs.log 2>/dev/null || echo "(no log entries yet)"
