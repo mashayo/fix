@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fix — Linux recovery strategies</title>
+    <title>fix — Linux Recovery Strategies</title>
     <meta name="description" content="Battle-tested Linux recovery strategies: Kernel Recovery Strategy (KRS) and Thunar default file manager fix. MIT licensed.">
     <style>
+        /* ---------- Reset & Base ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -25,13 +26,52 @@
             padding: 2rem 1.5rem;
         }
 
-        /* header */
-        .header {
+        /* ---------- Navigation ---------- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #50b8a0 0%, #1e6f5c 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #50b8a0;
+        }
+
+        /* ---------- Hero ---------- */
+        .hero {
             text-align: center;
             margin-bottom: 3rem;
         }
 
-        .header h1 {
+        .hero h1 {
             font-size: 3rem;
             font-weight: 700;
             letter-spacing: -0.02em;
@@ -39,15 +79,15 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
+            margin-bottom: 0.5rem;
         }
 
-        .header p {
+        .hero p {
             font-size: 1.2rem;
             color: #94a3b8;
-            margin-top: 0.5rem;
         }
 
-        /* stats row */
+        /* ---------- Stats ---------- */
         .stats {
             display: flex;
             flex-wrap: wrap;
@@ -60,14 +100,13 @@
             background: #1e293b;
             padding: 0.75rem 1.5rem;
             border-radius: 2rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             font-size: 0.875rem;
             font-weight: 500;
             color: #50b8a0;
             border: 1px solid #334155;
         }
 
-        /* fix cards */
+        /* ---------- Fix Cards ---------- */
         .fix-list {
             display: flex;
             flex-direction: column;
@@ -79,7 +118,6 @@
             background: #1e293b;
             border-radius: 1rem;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             border: 1px solid #334155;
             transition: all 0.2s ease;
             display: flex;
@@ -90,7 +128,7 @@
 
         .fix-card:hover {
             border-color: #50b8a0;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         .fix-info {
@@ -104,7 +142,7 @@
             color: #f1f5f9;
         }
 
-        .fix-info .badge {
+        .badge {
             font-size: 0.7rem;
             font-weight: 500;
             background: #0f3b2f;
@@ -139,7 +177,7 @@
             color: white;
         }
 
-        /* demo section */
+        /* ---------- Interactive Demo ---------- */
         .demo {
             background: #1e293b;
             border-radius: 1rem;
@@ -199,7 +237,7 @@
             outline: none;
         }
 
-        /* quick install */
+        /* ---------- Quick Install ---------- */
         .install {
             background: #1e293b;
             border-radius: 1rem;
@@ -234,7 +272,7 @@
             margin: 1rem 0;
         }
 
-        /* footer */
+        /* ---------- Footer ---------- */
         .footer {
             text-align: center;
             padding-top: 2rem;
@@ -252,6 +290,13 @@
             .container {
                 padding: 1rem;
             }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-links {
+                margin-top: 0.5rem;
+            }
             .fix-card {
                 flex-direction: column;
                 align-items: flex-start;
@@ -260,7 +305,7 @@
                 margin-left: 0;
                 margin-top: 1rem;
             }
-            .header h1 {
+            .hero h1 {
                 font-size: 2rem;
             }
         }
@@ -268,17 +313,30 @@
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <h1>fix</h1>
-        <p>Linux recovery strategies — zero‑downtime, battle‑tested</p>
+    <!-- Navigation Menu -->
+    <div class="navbar">
+        <div class="logo"><a href="#">fix</a></div>
+        <div class="nav-links">
+            <a href="https://mashayo.github.io/krs/">KRS (Site)</a>
+            <a href="/fix/krs/">KRS (in fix)</a>
+            <a href="thunar_recovery.html">Thunar Fix</a>
+        </div>
     </div>
 
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Linux Recovery Strategies</h1>
+        <p>Zero‑downtime, battle‑tested solutions</p>
+    </div>
+
+    <!-- Stats Badges -->
     <div class="stats">
         <span class="stat">⚡ MTTR &lt; 10s (KRS)</span>
         <span class="stat">🛠️ XFCE + Debian proven</span>
         <span class="stat">📄 MIT license</span>
     </div>
 
+    <!-- Fix Cards -->
     <div class="fix-list">
         <div class="fix-card">
             <div class="fix-info">
@@ -286,7 +344,7 @@
                 <h2>Kernel Recovery Strategy</h2>
                 <p>Zero‑downtime kernel update recovery using DKMS pre‑hooks. Automatically roll back failed modules.</p>
             </div>
-            <a href="krs.html" class="fix-link">Read More →</a>
+            <a href="https://mashayo.github.io/krs/" class="fix-link">Read More →</a>
         </div>
 
         <div class="fix-card">
@@ -297,7 +355,7 @@
             </div>
             <a href="thunar_recovery.html" class="fix-link">Read More →</a>
         </div>
-        
+
         <div class="fix-card" style="opacity: 0.7;">
             <div class="fix-info">
                 <div class="badge">Coming Soon</div>
@@ -308,6 +366,7 @@
         </div>
     </div>
 
+    <!-- Interactive Demo -->
     <div class="demo">
         <h2>💻 Interactive Demo</h2>
         <p>Experience the KRS recovery process in your browser. Type a command below (e.g., <code>help</code> or <code>./krs-status</code>) and press Enter to see how the system responds.</p>
@@ -333,6 +392,7 @@ Type 'help' for available commands.</pre>
         </div>
     </div>
 
+    <!-- Quick Install -->
     <div class="install">
         <h2>🚀 Quick Install (KRS)</h2>
         <p>To install the Kernel Recovery Strategy scripts on your Debian/Ubuntu system:</p>
@@ -348,6 +408,7 @@ sudo update-initramfs -u</code></pre>
         <p>For more details, visit the <a href="https://github.com/mashayo/fix/tree/main/krs" style="color:#50b8a0;">KRS directory in the repository</a>.</p>
     </div>
 
+    <!-- Footer -->
     <div class="footer">
         <p>© 2026 Edwin R. Mashayo — MIT License</p>
         <p><a href="https://github.com/mashayo/fix" target="_blank">GitHub Repository</a> &nbsp;|&nbsp;
@@ -359,8 +420,8 @@ sudo update-initramfs -u</code></pre>
 <script>
     const terminalOutput = document.getElementById('terminal-output');
     const commandInput = document.getElementById('command-input');
-    
-    // Define available commands
+
+    // Available commands for the demo
     const commands = {
         'help': `Available commands:
   ./krs-status      - Show system kernel and driver status
@@ -387,7 +448,7 @@ Critical module status:
         500 http://deb.debian.org/debian experimental/main amd64 Packages
  *** 6.1.0-25-amd64 500
         500 http://deb.debian.org/debian stable/main amd64 Packages`,
-        'simulate-failure': `⚠️  Simulating kernel upgrade failure...
+        'simulate-failure': `⚠️ Simulating kernel upgrade failure...
 ❌ DKMS build failed for kernel 6.12.57+deb13-amd64
    Missing kernel headers for version 6.12.57+deb13-amd64
    Aborting upgrade to prevent system downtime.
@@ -397,15 +458,15 @@ Critical module status:
    System will reboot in 5 seconds.
    (Simulation: system would reboot now)`
     };
-    
+
     commandInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             const cmd = commandInput.value.trim();
             if (cmd === '') return;
-            
-            // Add the command to the terminal output
+
+            // Display the command
             terminalOutput.innerHTML += `\n$ ${cmd}\n`;
-            
+
             // Process the command
             let output = '';
             if (cmd === 'clear') {
@@ -417,10 +478,10 @@ Critical module status:
             } else {
                 output = `Command not found: ${cmd}. Type 'help' for available commands.`;
             }
-            
+
             terminalOutput.innerHTML += `${output}\n`;
             commandInput.value = '';
-            // Auto-scroll
+            // Auto-scroll to bottom
             terminalOutput.scrollTop = terminalOutput.scrollHeight;
         }
     });
