@@ -1,1 +1,26 @@
+#!/bin/bash
+# KRS Rollback: Instantly revert to the previous working kernel
+# Part of the Mashayo Kernel Recovery Strategy (KRS)
 
+LOG_FILE="/var/log/krs.log"
+TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+
+log() {
+    echo "$TIMESTAMP - $1" | tee -a "$LOG_FILE"
+}
+
+# Find the previous boot entry from GRUB
+CURRENT=$(uname -r)
+PREVIOUS=$(grep -v "$CURRENT" /boot/grub/grub.cfg | grep "menuentry.*linux" | head -1 | sed "s/.*'\(.*\)'.*/\1/")
+
+if [ -z "$PREVIOUS" ]; then
+    log "KRS: No previous kernel found. Rollback aborted."
+    exit 1
+fi
+
+log "KRS: Rolling back from $CURRENT to $PREVIOUS"
+sudo grub-set-default "$PREVIOUS"
+sudo update-grub
+log "KRS: Default boot set to $PREVIOUS. System will reboot in 5 seconds."
+sleep 5
+sudo reboot
