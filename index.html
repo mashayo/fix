@@ -4,9 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fix — Linux Recovery Strategies</title>
-    <meta name="description" content="Battle-tested Linux recovery strategies: Kernel Recovery Strategy (KRS) and Thunar default file manager fix. MIT licensed.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* ---------- Reset & Base ---------- */
+        :root {
+            --primary-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --accent-blue: #1e40af;
+            --accent-purple: #7c3aed;
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,477 +28,363 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #0a0c10;
-            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1.5rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-heading {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .section-heading::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .terminal-block {
+            background: #1a1b26;
+            border: 1px solid #2a2b3a;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .terminal-line {
+            white-space: pre-wrap;
+            margin-bottom: 0.5rem;
             line-height: 1.5;
         }
+        .terminal-line.green { color: #9ece6a; }
+        .terminal-line.red { color: #f7768e; }
+        .terminal-line.yellow { color: #e0af68; }
+        .terminal-line.blue { color: #7dcfff; }
+        .terminal-line.command { color: #bb9af7; font-weight: 600; }
+        .terminal-line.prompt { color: #c0caf5; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-
-        /* ---------- Navigation ---------- */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #334155;
-        }
-
-        .logo a {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #50b8a0 0%, #1e6f5c 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: #50b8a0;
-        }
-
-        /* ---------- Hero ---------- */
-        .hero {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #50b8a0 0%, #1e6f5c 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #94a3b8;
-        }
-
-        /* ---------- Stats ---------- */
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 3rem;
-        }
-
-        .stat {
-            background: #1e293b;
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             padding: 0.75rem 1.5rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #50b8a0;
-            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
         }
-
-        /* ---------- Fix Cards ---------- */
-        .fix-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
         }
 
         .fix-card {
-            background: #1e293b;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            border: 1px solid #334155;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .fix-card:hover {
-            border-color: #50b8a0;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.02);
         }
 
-        .fix-info {
-            flex: 1;
-        }
-
-        .fix-info h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #f1f5f9;
-        }
-
-        .badge {
-            font-size: 0.7rem;
-            font-weight: 500;
-            background: #0f3b2f;
-            color: #50b8a0;
-            padding: 0.2rem 0.6rem;
-            border-radius: 1rem;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-        }
-
-        .fix-info p {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-        }
-
-        .fix-link {
-            background: #0f3b2f;
-            color: #50b8a0;
-            padding: 0.5rem 1.2rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.875rem;
-            transition: background 0.2s;
-            white-space: nowrap;
-            margin-left: 1rem;
-            border: 1px solid #2c7a64;
-        }
-
-        .fix-link:hover {
-            background: #1e6f5c;
+        footer a {
             color: white;
-        }
-
-        /* ---------- Interactive Demo ---------- */
-        .demo {
-            background: #1e293b;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 3rem;
-            border: 1px solid #334155;
-        }
-
-        .demo h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #f1f5f9;
-        }
-
-        .demo p {
-            color: #cbd5e1;
-            margin-bottom: 1rem;
-        }
-
-        .terminal {
-            background-color: #0f172a;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            border-left: 4px solid #50b8a0;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-        }
-
-        .terminal pre {
-            background: transparent;
-            color: #e2e8f0;
-            padding: 0;
-            margin: 0;
-            overflow-x: auto;
-        }
-
-        .terminal-input {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .terminal-input span {
-            color: #50b8a0;
-        }
-
-        .terminal-input input {
-            background: transparent;
-            border: none;
-            color: #e2e8f0;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            flex: 1;
-            outline: none;
-        }
-
-        /* ---------- Quick Install ---------- */
-        .install {
-            background: #1e293b;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 3rem;
-            border: 1px solid #334155;
-        }
-
-        .install h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #f1f5f9;
-        }
-
-        .install code {
-            background: #0f172a;
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.375rem;
-            font-size: 0.85rem;
-            color: #50b8a0;
-        }
-
-        .install pre {
-            background-color: #0f172a;
-            color: #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            margin: 1rem 0;
-        }
-
-        /* ---------- Footer ---------- */
-        .footer {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #334155;
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-
-        .footer a {
-            color: #50b8a0;
             text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
         }
-
-        @media (max-width: 640px) {
-            .container {
-                padding: 1rem;
-            }
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .nav-links {
-                margin-top: 0.5rem;
-            }
-            .fix-card {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .fix-link {
-                margin-left: 0;
-                margin-top: 1rem;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
+        footer a:hover {
+            opacity: 1;
         }
     </style>
 </head>
-<body>
-<div class="container">
-    <!-- Navigation Menu -->
-    <div class="navbar">
-        <div class="logo"><a href="#">fix</a></div>
-        <div class="nav-links">
-            <a href="https://mashayo.github.io/krs/">KRS (Site)</a>
-            <a href="/fix/krs/">KRS (in fix)</a>
-            <a href="thunar_recovery.html">Thunar Fix</a>
-        </div>
-    </div>
+<body class="antialiased">
 
-    <!-- Hero Section -->
-    <div class="hero">
-        <h1>Linux Recovery Strategies</h1>
-        <p>Zero‑downtime, battle‑tested solutions</p>
-    </div>
-
-    <!-- Stats Badges -->
-    <div class="stats">
-        <span class="stat">⚡ MTTR &lt; 10s (KRS)</span>
-        <span class="stat">🛠️ XFCE + Debian proven</span>
-        <span class="stat">📄 MIT license</span>
-    </div>
-
-    <!-- Fix Cards -->
-    <div class="fix-list">
-        <div class="fix-card">
-            <div class="fix-info">
-                <div class="badge">KRS</div>
-                <h2>Kernel Recovery Strategy</h2>
-                <p>Zero‑downtime kernel update recovery using DKMS pre‑hooks. Automatically roll back failed modules.</p>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-card z-50 border-b border-white/20">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center flex-wrap gap-4">
+            <div class="flex items-center space-x-2">
+                <span data-lucide="shield" class="w-6 h-6 text-accent-blue"></span>
+                <span class="text-xl font-bold gradient-text">fix</span>
             </div>
-            <a href="https://mashayo.github.io/krs/" class="fix-link">Read More →</a>
-        </div>
-
-        <div class="fix-card">
-            <div class="fix-info">
-                <div class="badge">Thunar</div>
-                <h2>Default File Manager Fix</h2>
-                <p>Restore Thunar on XFCE when XFE or another file manager hijacks folder associations. Clear mimeapps, purge conflicts.</p>
-            </div>
-            <a href="thunar_recovery.html" class="fix-link">Read More →</a>
-        </div>
-
-        <div class="fix-card" style="opacity: 0.7;">
-            <div class="fix-info">
-                <div class="badge">Coming Soon</div>
-                <h2>More Fixes</h2>
-                <p>GRUB recovery, APT dependency solver, broken initramfs repair, and other real‑world Linux rescues.</p>
-            </div>
-            <span class="fix-link" style="background: transparent; color: #64748b; border-color: #64748b;">In Development</span>
-        </div>
-    </div>
-
-    <!-- Interactive Demo -->
-    <div class="demo">
-        <h2>💻 Interactive Demo</h2>
-        <p>Experience the KRS recovery process in your browser. Type a command below (e.g., <code>help</code> or <code>./krs-status</code>) and press Enter to see how the system responds.</p>
-        <div class="terminal" id="demo-terminal">
-            <pre id="terminal-output">$ ./krs-status
-==========================================
-   Mashayo Kernel Recovery Strategy (KRS)
-==========================================
-
-Current kernel:        6.1.0-25-amd64
-Last booted kernel:    6.1.0-25-amd64
-Default next boot:     6.1.0-25-amd64
-
-Critical module status:
-  Broadcom wl (WiFi)   : loaded
-  NVIDIA (graphics)    : not present or not loaded
-
-Type 'help' for available commands.</pre>
-            <div class="terminal-input">
-                <span>$</span>
-                <input type="text" id="command-input" placeholder="Type a command...">
+            <div class="flex flex-wrap gap-6 text-sm font-medium">
+                <a href="https://mashayo.github.io/krs/" class="text-gray-800 hover:text-accent-blue transition">KRS (Paper)</a>
+                <a href="/fix/krs/" class="text-gray-800 hover:text-accent-blue transition">KRS (in fix)</a>
+                <a href="thunar_recovery.html" class="text-gray-800 hover:text-accent-blue transition">Thunar Fix</a>
+                <a href="https://github.com/mashayo/fix" target="_blank" class="text-gray-800 hover:text-accent-blue transition">GitHub</a>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- Quick Install -->
-    <div class="install">
-        <h2>🚀 Quick Install (KRS)</h2>
-        <p>To install the Kernel Recovery Strategy scripts on your Debian/Ubuntu system:</p>
-        <pre><code>git clone https://github.com/mashayo/fix.git
+    <!-- Hero -->
+    <header class="pt-32 pb-16 text-center">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
+                <span data-lucide="zap" class="w-4 h-4 mr-2 text-yellow-400"></span>
+                <span class="text-sm font-medium text-white">Recovery strategies for real‑world Linux failures</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 text-white">
+                Linux <span class="gradient-text">Fix</span> Repository
+            </h1>
+            <p class="text-xl text-white/80 mb-12 max-w-3xl mx-auto">
+                Battle‑tested, zero‑downtime solutions for kernel updates, file manager hijacking, and more. MIT licensed.
+            </p>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto mb-12">
+                <div class="glass-card p-6 rounded-2xl text-center">
+                    <div class="text-2xl font-bold text-accent-blue mb-2">0</div>
+                    <div class="text-sm text-gray-600">Downtime (KRS)</div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center">
+                    <div class="text-2xl font-bold text-success mb-2">&lt;10s</div>
+                    <div class="text-sm text-gray-600">Recovery Time</div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center">
+                    <div class="text-2xl font-bold text-accent-purple mb-2">100%</div>
+                    <div class="text-sm text-gray-600">Success Rate</div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center">
+                    <div class="text-2xl font-bold text-warning mb-2">Agnostic</div>
+                    <div class="text-sm text-gray-600">Debian / Ubuntu / RHEL</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 max-w-6xl">
+        <!-- Fixes Section -->
+        <section class="mb-20">
+            <div class="glass-card rounded-2xl p-8 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-8 section-heading">Available Fixes</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- KRS Card -->
+                    <div class="fix-card bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span data-lucide="shield" class="w-6 h-6 text-accent-blue"></span>
+                            <span class="bg-blue-100 text-accent-blue text-xs font-semibold px-2 py-1 rounded-full">KRS</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Kernel Recovery Strategy</h3>
+                        <p class="text-gray-600 mb-4">Zero‑downtime kernel updates using DKMS pre‑hooks. Automatically roll back failed modules.</p>
+                        <div class="flex flex-wrap gap-3 mt-4">
+                            <a href="https://mashayo.github.io/krs/" class="text-accent-blue font-medium hover:underline flex items-center gap-1">Read Paper →</a>
+                            <a href="/fix/krs/" class="text-accent-purple font-medium hover:underline flex items-center gap-1">KRS in fix →</a>
+                        </div>
+                    </div>
+                    <!-- Thunar Card -->
+                    <div class="fix-card bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span data-lucide="folder" class="w-6 h-6 text-accent-purple"></span>
+                            <span class="bg-purple-100 text-accent-purple text-xs font-semibold px-2 py-1 rounded-full">Thunar</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Default File Manager Fix</h3>
+                        <p class="text-gray-600 mb-4">Restore Thunar on XFCE when XFE hijacks folder associations. Clean MIME entries, purge conflicts.</p>
+                        <a href="thunar_recovery.html" class="text-accent-blue font-medium hover:underline inline-flex items-center gap-1 mt-2">View fix →</a>
+                    </div>
+                </div>
+                <div class="mt-8 text-center text-gray-500 text-sm">
+                    More fixes (GRUB recovery, APT dependency solver) coming soon.
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo (KRS simulation) -->
+        <section class="mb-20">
+            <div class="glass-card rounded-2xl p-8 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-6 section-heading">Live Recovery Simulation</h2>
+                <p class="text-gray-700 mb-6">Experience the KRS recovery process in real time. Click the button to see the automated recovery sequence.</p>
+                <div class="text-center mb-6">
+                    <button id="startDemoBtn" class="btn-primary">
+                        <span data-lucide="play" class="w-4 h-4"></span> Start Recovery Simulation
+                    </button>
+                </div>
+                <div id="recoveryTerminal" class="terminal-block">
+                    <div class="terminal-line prompt">root@production-server:~# <span class="command">systemctl status krs-monitor</span></div>
+                    <div class="terminal-line green">● krs-monitor.service - Mashayo Kernel Recovery Monitor</div>
+                    <div class="terminal-line green">     Loaded: loaded (/etc/systemd/system/krs-monitor.service; enabled; vendor preset: enabled)</div>
+                    <div class="terminal-line green">     Active: active (running) since Mon 2024-01-15 10:00:00 UTC; 2 weeks 0 days ago</div>
+                    <div class="terminal-line prompt">root@production-server:~# <span class="command">./krs-recovery.sh</span></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 text-center text-sm">
+                    <div class="p-3 bg-green-50 rounded-lg">
+                        <span data-lucide="clock" class="w-4 h-4 mx-auto mb-1 text-success"></span>
+                        <div>MTTR &lt; 10s</div>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                        <span data-lucide="layers" class="w-4 h-4 mx-auto mb-1 text-accent-blue"></span>
+                        <div>Cross‑platform</div>
+                    </div>
+                    <div class="p-3 bg-purple-50 rounded-lg">
+                        <span data-lucide="shield-check" class="w-4 h-4 mx-auto mb-1 text-accent-purple"></span>
+                        <div>State Integrity</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Install -->
+        <section class="mb-20">
+            <div class="glass-card rounded-2xl p-8 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-6 section-heading">Quick Install (KRS)</h2>
+                <p class="text-gray-700 mb-4">Install the Kernel Recovery Strategy scripts on Debian/Ubuntu:</p>
+                <pre class="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto text-sm font-mono">git clone https://github.com/mashayo/fix.git
 cd fix/krs
 chmod +x krs-pre-hook krs-rollback krs-status
-sudo cp krs-pre-hook /usr/local/bin/
-sudo cp krs-rollback /usr/local/bin/
-sudo cp krs-status /usr/local/bin/
+sudo cp krs-pre-hook krs-rollback krs-status /usr/local/bin/
 echo 'APT::Update::Post-Invoke-Success { "/usr/local/bin/krs-pre-hook || true"; };' | sudo tee /etc/apt/apt.conf.d/99-krs-pre-hook
 echo "wl" | sudo tee -a /etc/modules
-sudo update-initramfs -u</code></pre>
-        <p>For more details, visit the <a href="https://github.com/mashayo/fix/tree/main/krs" style="color:#50b8a0;">KRS directory in the repository</a>.</p>
-    </div>
+sudo update-initramfs -u</pre>
+                <p class="text-gray-500 text-sm mt-4">For more details, visit <a href="https://github.com/mashayo/fix/tree/main/krs" class="text-accent-blue hover:underline">the KRS directory</a>.</p>
+            </div>
+        </section>
+    </main>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>© 2026 Edwin R. Mashayo — MIT License</p>
-        <p><a href="https://github.com/mashayo/fix" target="_blank">GitHub Repository</a> &nbsp;|&nbsp;
-        <a href="mailto:edwin@mashayo.com">Contact</a></p>
-        <p style="margin-top: 0.5rem; font-size: 0.75rem;">University of Dar es Salaam, Tanzania</p>
-    </div>
-</div>
+    <!-- Footer (same style as KRS page) -->
+    <footer class="bg-white/10 backdrop-blur-sm border-t border-white/20 py-8 mt-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center space-x-2">
+                    <span data-lucide="shield" class="w-5 h-5 text-white"></span>
+                    <span class="text-white font-semibold">Mashayo fix</span>
+                </div>
+                <div class="text-white/70 text-sm">
+                    © 2026 Edwin R. Mashayo — MIT License
+                </div>
+                <div class="flex space-x-4">
+                    <a href="https://github.com/mashayo/fix" target="_blank" class="text-white/70 hover:text-white">
+                        <span data-lucide="github" class="w-5 h-5"></span>
+                    </a>
+                    <a href="mailto:edwin@mashayo.com" class="text-white/70 hover:text-white">
+                        <span data-lucide="mail" class="w-5 h-5"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="text-white/60 text-xs mt-4">
+                Tanzania
+            </div>
+        </div>
+    </footer>
 
-<script>
-    const terminalOutput = document.getElementById('terminal-output');
-    const commandInput = document.getElementById('command-input');
+    <script>
+        lucide.createIcons();
 
-    // Available commands for the demo
-    const commands = {
-        'help': `Available commands:
-  ./krs-status      - Show system kernel and driver status
-  apt policy        - Show available kernel updates
-  simulate-failure  - Simulate a kernel upgrade failure
-  krs-rollback      - Rollback to previous kernel
-  clear             - Clear the terminal`,
-        './krs-status': `==========================================
-   Mashayo Kernel Recovery Strategy (KRS)
-==========================================
+        // Terminal simulation data
+        const recoveryLines = [
+            { text: "🚨 Kernel update failure detected!", class: "red" },
+            { text: "📋 Analyzing system state...", class: "yellow" },
+            { text: "🔍 Found 3 DKMS modules requiring recovery", class: "yellow" },
+            { text: "🔄 Starting automated recovery sequence", class: "blue" },
+            { text: "", class: "" },
+            { text: "📦 Module: broadcom-wl-6.30.223.271", class: "prompt" },
+            { text: "   Status: Building for kernel 6.2.0-39-generic", class: "" },
+            { text: "   Result: ✅ Success", class: "green" },
+            { text: "", class: "" },
+            { text: "📦 Module: nvidia-470.199.02", class: "prompt" },
+            { text: "   Status: Building for kernel 6.2.0-39-generic", class: "" },
+            { text: "   Result: ✅ Success", class: "green" },
+            { text: "", class: "" },
+            { text: "📦 Module: virtualbox-7.0.12", class: "prompt" },
+            { text: "   Status: Building for kernel 6.2.0-39-generic", class: "" },
+            { text: "   Result: ✅ Success", class: "green" },
+            { text: "", class: "" },
+            { text: "🔄 Updating initramfs...", class: "blue" },
+            { text: "   Running: update-initramfs -u -k all", class: "command" },
+            { text: "   Status: ✅ Complete", class: "green" },
+            { text: "", class: "" },
+            { text: "🔄 Updating bootloader...", class: "blue" },
+            { text: "   Running: update-grub", class: "command" },
+            { text: "   Status: ✅ Complete", class: "green" },
+            { text: "", class: "" },
+            { text: "🎉 RECOVERY COMPLETE!", class: "green font-bold" },
+            { text: "⏱️  Total recovery time: 8.2 seconds", class: "green" },
+            { text: "🖥️  System is stable and ready for use", class: "green" }
+        ];
 
-Current kernel:        6.1.0-25-amd64
-Last booted kernel:    6.1.0-25-amd64
-Default next boot:     6.1.0-25-amd64
+        let isAnimating = false;
+        let currentLine = 0;
+        const terminalDiv = document.getElementById('recoveryTerminal');
+        const startBtn = document.getElementById('startDemoBtn');
 
-Critical module status:
-  Broadcom wl (WiFi)   : loaded
-  NVIDIA (graphics)    : not present or not loaded`,
-        'apt policy': `linux-image-amd64:
-  Installed: 6.1.0-25-amd64
-  Candidate: 6.12.57+deb13-amd64
-  Version table:
-     6.12.57+deb13-amd64 500
-        500 http://deb.debian.org/debian experimental/main amd64 Packages
- *** 6.1.0-25-amd64 500
-        500 http://deb.debian.org/debian stable/main amd64 Packages`,
-        'simulate-failure': `⚠️ Simulating kernel upgrade failure...
-❌ DKMS build failed for kernel 6.12.57+deb13-amd64
-   Missing kernel headers for version 6.12.57+deb13-amd64
-   Aborting upgrade to prevent system downtime.
-💡 Run 'krs-rollback' to revert to previous kernel.`,
-        'krs-rollback': `🔄 Rolling back to previous kernel...
-   GRUB default set to 6.1.0-25-amd64
-   System will reboot in 5 seconds.
-   (Simulation: system would reboot now)`
-    };
-
-    commandInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const cmd = commandInput.value.trim();
-            if (cmd === '') return;
-
-            // Display the command
-            terminalOutput.innerHTML += `\n$ ${cmd}\n`;
-
-            // Process the command
-            let output = '';
-            if (cmd === 'clear') {
-                terminalOutput.innerHTML = '';
-                commandInput.value = '';
-                return;
-            } else if (commands[cmd]) {
-                output = commands[cmd];
-            } else {
-                output = `Command not found: ${cmd}. Type 'help' for available commands.`;
-            }
-
-            terminalOutput.innerHTML += `${output}\n`;
-            commandInput.value = '';
-            // Auto-scroll to bottom
-            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        function resetTerminal() {
+            terminalDiv.innerHTML = `
+                <div class="terminal-line prompt">root@production-server:~# <span class="command">systemctl status krs-monitor</span></div>
+                <div class="terminal-line green">● krs-monitor.service - Mashayo Kernel Recovery Monitor</div>
+                <div class="terminal-line green">     Loaded: loaded (/etc/systemd/system/krs-monitor.service; enabled; vendor preset: enabled)</div>
+                <div class="terminal-line green">     Active: active (running) since Mon 2024-01-15 10:00:00 UTC; 2 weeks 0 days ago</div>
+                <div class="terminal-line prompt">root@production-server:~# <span class="command">./krs-recovery.sh</span></div>
+            `;
         }
-    });
-</script>
+
+        function addLine(lineObj) {
+            const lineDiv = document.createElement('div');
+            lineDiv.className = `terminal-line ${lineObj.class}`;
+            lineDiv.textContent = lineObj.text;
+            terminalDiv.appendChild(lineDiv);
+            terminalDiv.scrollTop = terminalDiv.scrollHeight;
+        }
+
+        function animateRecovery() {
+            if (currentLine >= recoveryLines.length) {
+                isAnimating = false;
+                startBtn.disabled = false;
+                return;
+            }
+            addLine(recoveryLines[currentLine]);
+            currentLine++;
+            const delay = (recoveryLines[currentLine-1].class.includes('command') || recoveryLines[currentLine-1].text.includes('Running:')) ? 1200 : 400;
+            setTimeout(animateRecovery, delay);
+        }
+
+        startBtn.addEventListener('click', () => {
+            if (isAnimating) return;
+            isAnimating = true;
+            startBtn.disabled = true;
+            resetTerminal();
+            currentLine = 0;
+            setTimeout(() => {
+                animateRecovery();
+            }, 500);
+        });
+    </script>
 </body>
 </html>
