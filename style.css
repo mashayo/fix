@@ -1,0 +1,117 @@
+:root {
+    --primary-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --accent-blue: #1e40af;
+    --accent-purple: #7c3aed;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.terminal-block {
+    background: #1a1b26;
+    border: 1px solid #2a2b3a;
+    max-height: 400px;
+    overflow-y: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-line {
+    white-space: pre-wrap;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.terminal-line.green { color: #9ece6a; }
+.terminal-line.red { color: #f7768e; }
+.terminal-line.yellow { color: #e0af68; }
+.terminal-line.blue { color: #7dcfff; }
+.terminal-line.command { color: #bb9af7; font-weight: 600; }
+.terminal-line.prompt { color: #c0caf5; }
+
+.gradient-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.section-heading {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.section-heading::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.feature-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.academic-block {
+    background: rgba(255, 255, 255, 0.9);
+    border-left: 4px solid var(--accent-blue);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.objective-block {
+    background: rgba(255, 255, 255, 0.9);
+    border-left: 4px solid var(--accent-purple);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.question-block {
+    background: rgba(255, 255, 255, 0.9);
+    border-left: 4px solid var(--danger);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.hypothesis-block {
+    background: rgba(255, 255, 255, 0.9);
+    border-left: 4px solid var(--success);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
