@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What's the fix? – Linux Recovery Strategies</title>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Shared stylesheet (root of fix repository) -->
+    
+    <!-- Load Tailwind CSS (Required for layout utilities) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Shared custom stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="antialiased">
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full glass-card z-50 border-b border-white/20">
@@ -179,8 +185,10 @@ sudo update-initramfs -u</pre>
     </footer>
 
     <script>
+        // Initialize Lucide Icons
         lucide.createIcons();
 
+        // Terminal Animation Logic
         const recoveryLines = [
             { text: "🚨 Kernel update failure detected!", class: "red" },
             { text: "📋 Analyzing system state...", class: "yellow" },
