@@ -3,24 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What's the Fix? — Linux Recovery Strategies</title>
-    <!-- Google Fonts -->
+    <title>What's the fix? – Linux Recovery Strategies</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {
-            --primary-bg: #f8fafc;
-            --card-bg: #ffffff;
-            --accent-blue: #1e40af;
-            --accent-purple: #7c3aed;
-            --text-dark: #1f2937;
-            --text-muted: #6b7280;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -31,9 +17,10 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: var(--text-dark);
+            color: #1f2937;
         }
 
+        /* Glass card */
         .glass-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -62,6 +49,7 @@
             border-radius: 2px;
         }
 
+        /* Terminal */
         .terminal-block {
             background: #1a1b26;
             border: 1px solid #2a2b3a;
@@ -85,6 +73,7 @@
         .terminal-line.command { color: #bb9af7; font-weight: 600; }
         .terminal-line.prompt { color: #c0caf5; }
 
+        /* Buttons */
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -102,124 +91,142 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            transition: background 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-        .btn-outline:hover {
-            background: rgba(255,255,255,0.1);
-        }
 
+        /* Cards */
         .fix-card {
             transition: transform 0.2s, box-shadow 0.2s;
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
         .fix-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.02);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
         }
 
-        footer a {
-            color: white;
-            text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.2s;
+        /* Layout utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
         }
-        footer a:hover {
-            opacity: 1;
+        .flex { display: flex; }
+        .flex-wrap { flex-wrap: wrap; }
+        .justify-between { justify-content: space-between; }
+        .items-center { align-items: center; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .text-center { text-align: center; }
+        .text-white { color: white; }
+        .text-gray-600 { color: #4b5563; }
+        .text-gray-700 { color: #374151; }
+        .text-sm { font-size: 0.875rem; }
+        .font-bold { font-weight: 700; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-8 { margin-top: 2rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: 1fr; }
+        .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .gap-8 { gap: 2rem; }
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full glass-card z-50 border-b border-white/20">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center flex-wrap gap-4">
             <div class="flex items-center space-x-2">
-                <span data-lucide="shield" class="w-6 h-6 text-accent-blue"></span>
-                <span class="text-xl font-bold gradient-text">fix</span>
+                <span data-lucide="shield" class="w-6 h-6 text-indigo-600"></span>
+                <span class="text-xl font-bold gradient-text">What's the fix?</span>
             </div>
             <div class="flex flex-wrap gap-6 text-sm font-medium">
-                <a href="https://mashayo.github.io/krs/" class="text-gray-800 hover:text-accent-blue transition">KRS (Paper)</a>
-                <a href="/fix/krs/" class="text-gray-800 hover:text-accent-blue transition">KRS (in fix)</a>
-                <a href="thunar_recovery.html" class="text-gray-800 hover:text-accent-blue transition">Thunar Fix</a>
-                <a href="https://github.com/mashayo/fix" target="_blank" class="text-gray-800 hover:text-accent-blue transition">GitHub</a>
+                <a href="https://mashayo.github.io/krs/" class="text-gray-800 hover:text-indigo-600 transition">KRS (Paper)</a>
+                <a href="/fix/krs/" class="text-gray-800 hover:text-indigo-600 transition">KRS (in fix)</a>
+                <a href="thunar_recovery.html" class="text-gray-800 hover:text-indigo-600 transition">Thunar Fix</a>
+                <a href="https://github.com/mashayo/fix" target="_blank" class="text-gray-800 hover:text-indigo-600 transition">GitHub</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero -->
     <header class="pt-32 pb-16 text-center">
-        <div class="container mx-auto px-6 max-w-6xl">
+        <div class="container mx-auto px-6">
             <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
                 <span data-lucide="zap" class="w-4 h-4 mr-2 text-yellow-400"></span>
-                <span class="text-sm font-medium text-white">Recovery strategies for real‑world Linux failures</span>
+                <span class="text-sm font-medium text-white">Battle‑tested Linux recovery strategies</span>
             </div>
             <h1 class="text-5xl md:text-6xl font-bold mb-6 text-white">
-                Linux <span class="gradient-text">Fix</span> Repository
+                What's the <span class="gradient-text">fix</span>?
             </h1>
             <p class="text-xl text-white/80 mb-12 max-w-3xl mx-auto">
-                Battle‑tested, zero‑downtime solutions for kernel updates, file manager hijacking, and more. MIT licensed.
+                Zero‑downtime solutions for kernel updates, file manager hijacking, and more. MIT licensed.
             </p>
 
             <!-- Stats -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto mb-12">
                 <div class="glass-card p-6 rounded-2xl text-center">
-                    <div class="text-2xl font-bold text-accent-blue mb-2">0</div>
+                    <div class="text-2xl font-bold text-indigo-600 mb-2">0</div>
                     <div class="text-sm text-gray-600">Downtime (KRS)</div>
                 </div>
                 <div class="glass-card p-6 rounded-2xl text-center">
-                    <div class="text-2xl font-bold text-success mb-2">&lt;10s</div>
+                    <div class="text-2xl font-bold text-green-600 mb-2">&lt;10s</div>
                     <div class="text-sm text-gray-600">Recovery Time</div>
                 </div>
                 <div class="glass-card p-6 rounded-2xl text-center">
-                    <div class="text-2xl font-bold text-accent-purple mb-2">100%</div>
+                    <div class="text-2xl font-bold text-purple-600 mb-2">100%</div>
                     <div class="text-sm text-gray-600">Success Rate</div>
                 </div>
                 <div class="glass-card p-6 rounded-2xl text-center">
-                    <div class="text-2xl font-bold text-warning mb-2">Agnostic</div>
+                    <div class="text-2xl font-bold text-amber-600 mb-2">Agnostic</div>
                     <div class="text-sm text-gray-600">Debian / Ubuntu / RHEL</div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-12 max-w-6xl">
+    <main class="container mx-auto px-6 py-12">
         <!-- Fixes Section -->
         <section class="mb-20">
             <div class="glass-card rounded-2xl p-8 shadow-2xl">
                 <h2 class="text-3xl font-bold mb-8 section-heading">Available Fixes</h2>
-                <div class="grid md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- KRS Card -->
-                    <div class="fix-card bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                    <div class="fix-card">
                         <div class="flex items-center gap-3 mb-3">
-                            <span data-lucide="shield" class="w-6 h-6 text-accent-blue"></span>
-                            <span class="bg-blue-100 text-accent-blue text-xs font-semibold px-2 py-1 rounded-full">KRS</span>
+                            <span data-lucide="shield" class="w-6 h-6 text-indigo-600"></span>
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2 py-1 rounded-full">KRS</span>
                         </div>
                         <h3 class="text-xl font-bold mb-2">Kernel Recovery Strategy</h3>
                         <p class="text-gray-600 mb-4">Zero‑downtime kernel updates using DKMS pre‑hooks. Automatically roll back failed modules.</p>
                         <div class="flex flex-wrap gap-3 mt-4">
-                            <a href="https://mashayo.github.io/krs/" class="text-accent-blue font-medium hover:underline flex items-center gap-1">Read Paper →</a>
-                            <a href="/fix/krs/" class="text-accent-purple font-medium hover:underline flex items-center gap-1">KRS in fix →</a>
+                            <a href="https://mashayo.github.io/krs/" class="text-indigo-600 font-medium hover:underline flex items-center gap-1">Read Paper →</a>
+                            <a href="/fix/krs/" class="text-purple-600 font-medium hover:underline flex items-center gap-1">KRS in fix →</a>
                         </div>
                     </div>
                     <!-- Thunar Card -->
-                    <div class="fix-card bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                    <div class="fix-card">
                         <div class="flex items-center gap-3 mb-3">
-                            <span data-lucide="folder" class="w-6 h-6 text-accent-purple"></span>
-                            <span class="bg-purple-100 text-accent-purple text-xs font-semibold px-2 py-1 rounded-full">Thunar</span>
+                            <span data-lucide="folder" class="w-6 h-6 text-purple-600"></span>
+                            <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2 py-1 rounded-full">Thunar</span>
                         </div>
                         <h3 class="text-xl font-bold mb-2">Default File Manager Fix</h3>
                         <p class="text-gray-600 mb-4">Restore Thunar on XFCE when XFE hijacks folder associations. Clean MIME entries, purge conflicts.</p>
-                        <a href="thunar_recovery.html" class="text-accent-blue font-medium hover:underline inline-flex items-center gap-1 mt-2">View fix →</a>
+                        <a href="thunar_recovery.html" class="text-indigo-600 font-medium hover:underline inline-flex items-center gap-1 mt-2">View fix →</a>
                     </div>
                 </div>
                 <div class="mt-8 text-center text-gray-500 text-sm">
@@ -228,7 +235,7 @@
             </div>
         </section>
 
-        <!-- Interactive Demo (KRS simulation) -->
+        <!-- Live Demo (KRS Simulation) -->
         <section class="mb-20">
             <div class="glass-card rounded-2xl p-8 shadow-2xl">
                 <h2 class="text-3xl font-bold mb-6 section-heading">Live Recovery Simulation</h2>
@@ -247,15 +254,15 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 text-center text-sm">
                     <div class="p-3 bg-green-50 rounded-lg">
-                        <span data-lucide="clock" class="w-4 h-4 mx-auto mb-1 text-success"></span>
+                        <span data-lucide="clock" class="w-4 h-4 mx-auto mb-1 text-green-600"></span>
                         <div>MTTR &lt; 10s</div>
                     </div>
-                    <div class="p-3 bg-blue-50 rounded-lg">
-                        <span data-lucide="layers" class="w-4 h-4 mx-auto mb-1 text-accent-blue"></span>
+                    <div class="p-3 bg-indigo-50 rounded-lg">
+                        <span data-lucide="layers" class="w-4 h-4 mx-auto mb-1 text-indigo-600"></span>
                         <div>Cross‑platform</div>
                     </div>
                     <div class="p-3 bg-purple-50 rounded-lg">
-                        <span data-lucide="shield-check" class="w-4 h-4 mx-auto mb-1 text-accent-purple"></span>
+                        <span data-lucide="shield-check" class="w-4 h-4 mx-auto mb-1 text-purple-600"></span>
                         <div>State Integrity</div>
                     </div>
                 </div>
@@ -274,18 +281,18 @@ sudo cp krs-pre-hook krs-rollback krs-status /usr/local/bin/
 echo 'APT::Update::Post-Invoke-Success { "/usr/local/bin/krs-pre-hook || true"; };' | sudo tee /etc/apt/apt.conf.d/99-krs-pre-hook
 echo "wl" | sudo tee -a /etc/modules
 sudo update-initramfs -u</pre>
-                <p class="text-gray-500 text-sm mt-4">For more details, visit <a href="https://github.com/mashayo/fix/tree/main/krs" class="text-accent-blue hover:underline">the KRS directory</a>.</p>
+                <p class="text-gray-500 text-sm mt-4">For more details, visit <a href="https://github.com/mashayo/fix/tree/main/krs" class="text-indigo-600 hover:underline">the KRS directory</a>.</p>
             </div>
         </section>
     </main>
 
-    <!-- Footer (same style as KRS page) -->
+    <!-- Footer -->
     <footer class="bg-white/10 backdrop-blur-sm border-t border-white/20 py-8 mt-12">
         <div class="container mx-auto px-6 text-center">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center space-x-2">
                     <span data-lucide="shield" class="w-5 h-5 text-white"></span>
-                    <span class="text-white font-semibold">Mashayo fix</span>
+                    <span class="text-white font-semibold">What's the fix?</span>
                 </div>
                 <div class="text-white/70 text-sm">
                     © 2026 Edwin R. Mashayo — MIT License
@@ -300,7 +307,7 @@ sudo update-initramfs -u</pre>
                 </div>
             </div>
             <div class="text-white/60 text-xs mt-4">
-                Tanzania
+                University of Dar es Salaam, Tanzania
             </div>
         </div>
     </footer>
@@ -308,7 +315,6 @@ sudo update-initramfs -u</pre>
     <script>
         lucide.createIcons();
 
-        // Terminal simulation data
         const recoveryLines = [
             { text: "🚨 Kernel update failure detected!", class: "red" },
             { text: "📋 Analyzing system state...", class: "yellow" },
